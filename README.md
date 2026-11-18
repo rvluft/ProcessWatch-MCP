@@ -65,8 +65,9 @@ equipe usa o navegador, fique com a opção 1.
 ### Antes de a equipe usar
 
 A consulta por aplicativo precisa estar liberada para a empresa no
-ProcessWatch. Quem libera é o suporte do ProcessWatch. Sem isso, a tela de
-aprovar avisa que nada foi liberado.
+ProcessWatch. Quem libera é o suporte do ProcessWatch, pelo e-mail
+<suporte@processwatch.com.br>. Sem isso, a tela de aprovar avisa que nada foi
+liberado.
 
 ## O que o ChatGPT vê
 

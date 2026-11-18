@@ -27,8 +27,11 @@ caminhos.
 
 ### Opção 1: criar e publicar pelo ChatGPT
 
-É a opção para a equipe usar no navegador. A conta precisa das permissões
-**Create plugins with MCPs** e **Publish plugins to workspace**.
+É a opção para a equipe usar no navegador. Pela documentação da OpenAI, criar
+a ligação existe nas contas Business, Enterprise e Edu (no Business, só
+administradores e donos criam e publicam) e na conta Pro. Na conta Plus e na
+gratuita, a opção pode não aparecer. Onde existe, a conta precisa das
+permissões **Create plugins with MCPs** e **Publish plugins to workspace**.
 
 1. Em <https://chatgpt.com/plugins>, clique no **+** e escolha **Add custom MCP server**.
 2. Dê o nome `ProcessWatch`. Em **Connection**, ponha em **Server URL** o

@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ligar o ChatGPT ao ProcessWatch</title>
+<meta name="description" content="Passo a passo para instalar o ProcessWatch no ChatGPT e consultar os processos da sua empresa.">
+<style>
+  /* Layout: uma coluna de leitura. Abre com os quatro passos de quem vai usar;
+     o que é exceção (não achou na lista, administrador, desligar) vem depois. */
+  :root {
+    --papel: #e9eaeb;
+    --folha: #ffffff;
+    --tinta: #16151c;
+    --tinta-suave: #4d555b;
+    --linha: #d7dadc;
+    --marca: #012538;
+    --destaque: #00d4d4;
+    --destaque-suave: #d7f7f7;
+    --sobre-destaque: #012538;
+    --aviso-suave: #fdefdb;
+    --fonte: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --fonte-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --papel: #0d1315;
+      --folha: #151d20;
+      --tinta: #e8eff0;
+      --tinta-suave: #aebbbe;
+      --linha: #253034;
+      --marca: #d6e4ec;
+      --destaque: #00d4d4;
+      --destaque-suave: #0b3335;
+      --sobre-destaque: #012538;
+      --aviso-suave: #382713;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --papel: #0d1315;
+    --folha: #151d20;
+    --tinta: #e8eff0;
+    --tinta-suave: #aebbbe;
+    --linha: #253034;
+    --marca: #d6e4ec;
+    --destaque: #00d4d4;
+    --destaque-suave: #0b3335;
+    --sobre-destaque: #012538;
+    --aviso-suave: #382713;
+    color-scheme: dark;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  /* `.campo` tem `display` próprio, que venceria o atributo `hidden`. */
+  [hidden] { display: none !important; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--papel);
+    color: var(--tinta);
+    font-family: var(--fonte);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    padding-block: 2rem 4rem;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+  }
+  main { max-width: 44rem; margin-inline: auto; display: flex; flex-direction: column; gap: 1.5rem; }
+  section, header.topo {
+    background: var(--folha);
+    border: 1px solid var(--linha);
+    border-radius: 18px;
+    padding: clamp(1.25rem, 4vw, 2rem);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    min-width: 0;
+  }
+  p, ul, ol, h1, h2, h3 { margin: 0; }
+
+  .marca { font-weight: 800; font-size: 1.05rem; letter-spacing: -0.01em; color: var(--marca); }
+  .marca span { color: var(--destaque); }
+  h1 { font-size: clamp(1.7rem, 1.2rem + 2.4vw, 2.4rem); line-height: 1.15; letter-spacing: -0.02em; text-wrap: balance; color: var(--marca); }
+  h2 { font-size: 1.3rem; line-height: 1.25; letter-spacing: -0.01em; text-wrap: balance; color: var(--marca); }
+  h3 { font-size: 1.05rem; line-height: 1.3; }
+  .chamada { font-size: 1.15rem; color: var(--tinta-suave); }
+  .nota { font-size: 0.95rem; color: var(--tinta-suave); }
+  strong { font-weight: 700; }
+  a { color: inherit; text-underline-offset: 3px; }
+
+  nav.atalhos { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  nav.atalhos a {
+    font-size: 0.9rem; font-weight: 600; text-decoration: none;
+    border: 1px solid var(--linha); border-radius: 999px; padding: 0.35rem 0.85rem;
+  }
+  nav.atalhos a:hover { background: var(--destaque-suave); }
+
+  ol.passos { list-style: none; padding: 0; counter-reset: passo; display: flex; flex-direction: column; gap: 1.25rem; }
+  ol.passos > li { counter-increment: passo; display: grid; grid-template-columns: 2.25rem minmax(0, 1fr); column-gap: 0.9rem; }
+  ol.passos > li::before {
+    content: counter(passo);
+    width: 2.25rem; height: 2.25rem; border-radius: 999px;
+    display: grid; place-items: center;
+    background: var(--destaque); color: var(--sobre-destaque);
+    font-weight: 800; font-variant-numeric: tabular-nums;
+  }
+  ol.passos > li > div { display: flex; flex-direction: column; gap: 0.6rem; padding-top: 0.2rem; }
+
+  .botao {
+    align-self: flex-start;
+    display: inline-block;
+    background: var(--destaque); color: var(--sobre-destaque);
+    font: inherit; font-weight: 700; text-decoration: none;
+    border: 0; border-radius: 12px; padding: 0.8rem 1.2rem; cursor: pointer;
+  }
+  .botao:hover { filter: brightness(0.94); }
+
+  .campo {
+    display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 0.25rem 0.75rem;
+    background: var(--papel); border: 1px solid var(--linha); border-radius: 12px; padding: 0.7rem 0.9rem;
+  }
+  .campo .rotulo { grid-column: 1 / -1; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--tinta-suave); }
+  .campo .valor { font-family: var(--fonte-mono); font-size: 0.92rem; overflow-wrap: anywhere; user-select: all; }
+  .campo .frase { font-family: inherit; font-size: 1rem; }
+  .copiar {
+    font: inherit; font-size: 0.85rem; font-weight: 700; cursor: pointer;
+    background: var(--folha); color: var(--tinta); border: 1px solid var(--linha); border-radius: 999px; padding: 0.3rem 0.8rem;
+  }
+  .copiar:hover { background: var(--destaque-suave); }
+  /* No celular o botão desce: ao lado, ele espreme o endereço em três linhas. */
+  @media (max-width: 30rem) {
+    .campo { grid-template-columns: minmax(0, 1fr); }
+    .copiar { justify-self: start; }
+  }
+  /* Sem `nowrap`: "I understand and want to continue" não cabe numa linha de celular. */
+  .tecla { font-weight: 700; background: var(--destaque-suave); border-radius: 6px; padding: 0.05em 0.4em; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+
+  .aviso { background: var(--aviso-suave); border-radius: 12px; padding: 0.85rem 1rem; font-size: 0.98rem; }
+  ul.lista { padding-left: 1.2rem; display: flex; flex-direction: column; gap: 0.35rem; }
+  .duas { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 1.25rem; }
+  .duas > div { display: flex; flex-direction: column; gap: 0.6rem; min-width: 0; }
+  dl { margin: 0; display: flex; flex-direction: column; gap: 0.9rem; }
+  dt { font-weight: 700; }
+  dd { margin: 0.2rem 0 0; color: var(--tinta-suave); }
+  footer { max-width: 44rem; margin: 1.5rem auto 0; font-size: 0.88rem; color: var(--tinta-suave); }
+
+  :focus-visible { outline: 3px solid var(--destaque); outline-offset: 2px; border-radius: 8px; }
+  @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+</style>
+</head>
+<body>
+<main>
+  <header class="topo">
+    <p class="marca">Process<span>Watch</span></p>
+    <h1>Ligue o ChatGPT ao ProcessWatch</h1>
+    <p class="chamada">Depois de ligado, você pergunta ao ChatGPT sobre os processos da sua empresa e ele consulta o ProcessWatch na hora.</p>
+    <p class="nota">Leva uns dois minutos. Faça no computador. O aplicativo só lê. Ele não encerra processo, não muda obra e não pede verificação.</p>
+    <nav class="atalhos" aria-label="Nesta página">
+      <a href="#instalar">Instalar</a>
+      <a href="#fora-da-lista">Não achei na lista</a>
+      <a href="#administrador">Administro o ChatGPT da empresa</a>
+      <a href="#o-que-ve">O que o ChatGPT vê</a>
+      <a href="#desligar">Desligar</a>
+    </nav>
+  </header>
+
+  <section id="instalar" aria-labelledby="t-instalar">
+    <h2 id="t-instalar">Instalar</h2>
+    <ol class="passos">
+      <li><div>
+        <h3>Abra os plugins do ChatGPT</h3>
+        <a class="botao" href="https://chatgpt.com/plugins" target="_blank" rel="noopener">Abrir os plugins do ChatGPT</a>
+        <p class="nota">Abre numa aba nova. Se pedir, entre com a sua conta do ChatGPT.</p>
+      </div></li>
+      <li><div>
+        <h3>Instale o ProcessWatch</h3>
+        <p>Clique na aba com o <strong>nome da sua empresa</strong>, procure <strong>ProcessWatch</strong> e clique no botão <span class="tecla">+</span> para instalar.</p>
+        <p class="nota">Não apareceu? Veja <a href="#fora-da-lista">Não achei na lista</a>, logo abaixo.</p>
+        <p class="nota">Apareceu com o aviso <strong>Desktop only</strong>? Então ele só instala pelo aplicativo do ChatGPT para computador: abra o aplicativo, vá aos plugins e instale por lá. No celular ele não aparece.</p>
+      </div></li>
+      <li><div>
+        <h3>Entre e aprove</h3>
+        <p>Vai abrir uma tela do ProcessWatch. Entre com o mesmo e-mail e a mesma senha que você usa no painel. A tela mostra o que o ChatGPT vai poder ler. Confira e clique em <span class="tecla">Aprovar a conexão</span>.</p>
+      </div></li>
+      <li><div>
+        <h3>Pergunte</h3>
+        <p>Abra uma conversa nova no ChatGPT e pergunte com as suas palavras. Para começar:</p>
+        <div class="campo"><span class="valor frase" id="p1">Quais processos estão parados há mais de 30 dias?</span><button type="button" class="copiar" data-copiar="p1" hidden>Copiar</button></div>
+        <div class="campo"><span class="valor frase" id="p2">O que mudou nos processos nos últimos 7 dias?</span><button type="button" class="copiar" data-copiar="p2" hidden>Copiar</button></div>
+        <div class="campo"><span class="valor frase" id="p3">Quais processos estão com a prefeitura?</span><button type="button" class="copiar" data-copiar="p3" hidden>Copiar</button></div>
+        <p class="nota">Se o ChatGPT responder sem consultar, digite <span class="tecla">@</span> na conversa e escolha ProcessWatch.</p>
+      </div></li>
+    </ol>
+  </section>
+
+  <section id="fora-da-lista" aria-labelledby="t-fora">
+    <h2 id="t-fora">Não achei o ProcessWatch na lista</h2>
+    <p>Ele aparece na aba da empresa depois que quem administra o ChatGPT da sua empresa o publica. Peça a essa pessoa para seguir <a href="#administrador">a parte do administrador</a>.</p>
+    <p>Se a sua conta do ChatGPT é só sua, ou se você não quer esperar, dá para criar a ligação à mão:</p>
+    <ol class="passos">
+      <li><div>
+        <p>Nos <a href="https://chatgpt.com/plugins" target="_blank" rel="noopener">plugins do ChatGPT</a>, clique no botão <span class="tecla">+</span> e escolha <span class="tecla">Add custom MCP server</span>.</p>
+      </div></li>
+      <li><div>
+        <p>Preencha os campos com estes valores:</p>
+        <div class="campo"><span class="rotulo">Nome</span><span class="valor" id="c-nome">ProcessWatch</span><button type="button" class="copiar" data-copiar="c-nome" hidden>Copiar</button></div>
+        <div class="campo"><span class="rotulo">Server URL, na parte Connection</span><span class="valor" id="c-endereco">https://app.processwatch.com.br/api/mcp</span><button type="button" class="copiar" data-copiar="c-endereco" hidden>Copiar</button></div>
+        <div class="campo"><span class="rotulo">Autenticação: das três opções, escolha esta</span><span class="valor">OAuth</span></div>
+      </div></li>
+      <li><div>
+        <p>Leia o aviso do ChatGPT e clique em <span class="tecla">I understand and want to continue</span>. Depois clique em <span class="tecla">Create as a plugin</span>.</p>
+      </div></li>
+      <li><div>
+        <p>O plugin criado fica nos seus plugins pessoais. Instale-o e siga a partir de <a href="#instalar">Entre e aprove</a>.</p>
+      </div></li>
+    </ol>
+    <p class="aviso">A opção <strong>Add custom MCP server</strong> não aparece para você? A sua conta ou a sua empresa não permite criar a ligação. Fale com quem administra o ChatGPT da empresa.</p>
+  </section>
+
+  <section id="administrador" aria-labelledby="t-adm">
+    <h2 id="t-adm">Para quem administra o ChatGPT da empresa</h2>
+    <p>Isto se faz uma vez. Depois, cada pessoa só instala e aprova, pelos passos do começo desta página. É preciso ser administrador do espaço de trabalho no ChatGPT.</p>
+    <p class="nota">Os nomes dos botões abaixo estão em inglês, como na documentação do ChatGPT. No seu eles podem aparecer traduzidos.</p>
+    <div class="duas">
+      <div>
+        <h3>Opção 1: criar e publicar pelo ChatGPT</h3>
+        <p class="nota">É a opção para a equipe usar no navegador. A sua conta precisa das permissões <strong>Create plugins with MCPs</strong> e <strong>Publish plugins to workspace</strong>.</p>
+        <ul class="lista">
+          <li>Crie a ligação à mão, pelos quatro passos de <a href="#fora-da-lista">Não achei na lista</a>.</li>
+          <li>Nos plugins, abra a aba <span class="tecla">Personal</span>, clique nos três pontos do ProcessWatch e escolha <span class="tecla">Publish</span>.</li>
+          <li>Escolha quais perfis da empresa podem usar.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Opção 2: importar deste repositório</h3>
+        <p class="nota">É a opção para a equipe que usa o aplicativo do ChatGPT para computador. Traz junto as instruções de consulta e atualiza sozinho todo dia.</p>
+        <ul class="lista">
+          <li>Abra <span class="tecla">Admin</span>, depois <span class="tecla">Plugins</span>, e escolha <span class="tecla">Add</span> e <span class="tecla">Import marketplace</span>.</li>
+          <li>Em <span class="tecla">Source</span>, cole o endereço do repositório, que está logo abaixo. Deixe os outros campos vazios.</li>
+          <li>Clique em <span class="tecla">Import marketplace</span> e autorize o acesso ao GitHub quando o ChatGPT pedir.</li>
+          <li>Em <span class="tecla">Import results</span>, abra o ProcessWatch e escolha quais perfis podem instalar.</li>
+        </ul>
+        <div class="campo"><span class="rotulo">Endereço do repositório</span><span class="valor" id="c-repositorio">https://github.com/rvluft/ProcessWatch-MCP</span><button type="button" class="copiar" data-copiar="c-repositorio" hidden>Copiar</button></div>
+      </div>
+    </div>
+    <p class="aviso">Na opção 2, conte com o aviso <strong>Desktop only</strong>. A documentação do ChatGPT diz que o plugin importado que traz a ligação dentro dele pode receber esse aviso, e o ProcessWatch é desse tipo. Com ele, a pessoa até acha o plugin no navegador, mas só instala e usa pelo aplicativo do ChatGPT para computador, e no celular ele não aparece. Se a equipe usa o navegador, fique com a opção 1.</p>
+    <p class="nota">Antes de qualquer pessoa conseguir aprovar, a consulta por aplicativo precisa estar liberada para a empresa no ProcessWatch. Quem libera é o suporte do ProcessWatch.</p>
+  </section>
+
+  <section id="o-que-ve" aria-labelledby="t-ve">
+    <h2 id="t-ve">O que o ChatGPT vê, e o que não vê</h2>
+    <div class="duas">
+      <div>
+        <h3>Vê</h3>
+        <ul class="lista">
+          <li>Número do protocolo de cada processo</li>
+          <li>Obra, cidade e portal — o nome da obra sai como está no painel, e pode conter nome de pessoa ou de rua</li>
+          <li>Classe do processo, se a equipe encerrou e há quantos dias está parado</li>
+          <li>Datas da última movimentação e da última leitura no portal</li>
+          <li>Quais processos são principal e subprocesso um do outro</li>
+          <li>Mudanças que o ProcessWatch detectou: o tipo, a gravidade e a data — sem o texto do portal</li>
+          <li>Conectores que não estão lendo: o nome que a equipe deu (pode ser o de uma pessoa ou de uma rua), o portal e desde quando</li>
+        </ul>
+        <p class="nota">É a mesma lista da tela de aprovar, que você vê antes de decidir.</p>
+      </div>
+      <div>
+        <h3>Não sai do ProcessWatch</h3>
+        <ul class="lista">
+          <li>Os campos de proprietário, endereço e inscrição imobiliária</li>
+          <li>Nome de servidor da prefeitura, ficha e texto dos andamentos e despachos</li>
+          <li>Links de anexo, logins e senhas dos portais</li>
+          <li>A mensagem de erro dos conectores</li>
+        </ul>
+      </div>
+    </div>
+    <p class="nota">Cada pessoa liga a própria conta, e o ChatGPT enxerga só os processos da empresa dela. O que o ChatGPT faz com o que lê segue as regras da sua conta do ChatGPT.</p>
+  </section>
+
+  <section id="desligar" aria-labelledby="t-desligar">
+    <h2 id="t-desligar">Para desligar</h2>
+    <p>No painel do ProcessWatch, abra <strong>Configurações</strong>, vá até <strong>Aplicativos conectados</strong> e clique em <strong>Desconectar</strong> na linha do aplicativo. Vale na hora: a consulta seguinte já é recusada.</p>
+  </section>
+
+  <section id="deu-errado" aria-labelledby="t-erro">
+    <h2 id="t-erro">Deu errado?</h2>
+    <dl>
+      <div><dt>A tela do ProcessWatch diz que a consulta ainda não está liberada para a sua empresa</dt><dd>Nada foi liberado. Peça ao suporte do ProcessWatch para liberar e tente de novo.</dd></div>
+      <div><dt>O ChatGPT diz que não conseguiu conectar</dt><dd>Tente mais uma vez. Se repetir, copie ou fotografe a mensagem que apareceu e mande ao suporte do ProcessWatch.</dd></div>
+      <div><dt>O ChatGPT responde sem consultar o ProcessWatch</dt><dd>Digite <span class="tecla">@</span> na conversa e escolha ProcessWatch antes de perguntar.</dd></div>
+      <div><dt>A resposta diz que o limite de chamadas foi atingido</dt><dd>Espere alguns minutos e pergunte de novo. Há um limite de consultas por minuto e outro por hora.</dd></div>
+    </dl>
+  </section>
+</main>
+<footer>
+  <p>Os nomes dos botões do ChatGPT estão como na documentação da OpenAI de 17/11/2026, em inglês. No seu ChatGPT eles podem aparecer traduzidos ou ter mudado de lugar.</p>
+</footer>
+<script>
+  // Sem este script a página continua inteira: os valores ficam à vista, para
+  // selecionar e copiar à mão. Ele só acrescenta os botões de copiar.
+  (function () {
+    document.querySelectorAll('[data-copiar]').forEach(function (botao) {
+      var alvo = document.getElementById(botao.getAttribute('data-copiar'));
+      if (!alvo || !navigator.clipboard) return;
+      botao.hidden = false;
+      botao.addEventListener('click', function () {
+        navigator.clipboard.writeText(alvo.textContent).then(
+          function () {
+            botao.textContent = 'Copiado';
+            setTimeout(function () { botao.textContent = 'Copiar'; }, 2000);
+          },
+          function () {
+            var faixa = document.createRange();
+            faixa.selectNodeContents(alvo);
+            var selecao = getSelection();
+            selecao.removeAllRanges();
+            selecao.addRange(faixa);
+          }
+        );
+      });
+    });
+  })();
+</script>
+</body>
+</html>

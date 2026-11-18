@@ -1,0 +1,20 @@
+{
+  "name": "processwatch",
+  "interface": {
+    "displayName": "ProcessWatch"
+  },
+  "plugins": [
+    {
+      "name": "processwatch",
+      "source": {
+        "source": "local",
+        "path": "./plugins/processwatch"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

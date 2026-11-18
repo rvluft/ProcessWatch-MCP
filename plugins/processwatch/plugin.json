@@ -1,0 +1,33 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "processwatch",
+  "version": "1.0.0",
+  "description": "Consulta, somente leitura, os processos de licenciamento em prefeituras que a empresa acompanha no ProcessWatch.",
+  "author": {
+    "name": "ProcessWatch"
+  },
+  "homepage": "https://rvluft.github.io/ProcessWatch-MCP/",
+  "repository": "https://github.com/rvluft/ProcessWatch-MCP",
+  "keywords": ["licenciamento", "prefeitura", "protocolos", "obras", "alvará"],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "ProcessWatch",
+        "shortDescription": "Processos nas prefeituras",
+        "longDescription": "Pergunte sobre os processos de licenciamento que a sua empresa acompanha no ProcessWatch: quais estão em andamento, com quem está cada um, o que mudou num período, quais estão parados e quais conectores não estão lendo. É somente leitura: nada é alterado no processo nem no ProcessWatch. Cada pessoa entra com a própria conta do ProcessWatch e aprova o acesso numa tela do painel; a consulta enxerga só os processos da empresa dela. Não saem proprietário, endereço, inscrição imobiliária, texto de andamentos e despachos, anexos nem logins dos portais.",
+        "developerName": "ProcessWatch",
+        "category": "Productivity",
+        "capabilities": ["Read"],
+        "defaultPrompt": [
+          "Quais processos estão parados há mais de 30 dias?",
+          "O que mudou nos processos nos últimos 7 dias?",
+          "Quais processos estão com a prefeitura?"
+        ],
+        "brandColor": "#012538",
+        "brandColorDark": "#00D4D4",
+        "composerIcon": "./assets/icone.png",
+        "logo": "./assets/icone.png"
+      }
+    }
+  }
+}

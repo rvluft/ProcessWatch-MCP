@@ -14,11 +14,19 @@ Abra o guia, que tem o passo a passo com os botões:
 <https://rvluft.github.io/ProcessWatch-MCP/>. É esse o endereço para mandar à
 equipe.
 
-Em resumo, são três cliques e uma senha:
+Em resumo:
 
 1. abrir os plugins do ChatGPT, em <https://chatgpt.com/plugins>;
-2. na aba com o nome da empresa, achar **ProcessWatch** e clicar no **+**;
-3. entrar com a conta do ProcessWatch e clicar em **Aprovar a conexão**.
+2. clicar em **Add** e escolher **Add custom MCP server**;
+3. preencher `ProcessWatch` em **Name**, o endereço
+   `https://app.processwatch.com.br/api/mcp` em **Server URL** (na parte
+   **Connection**) e **OAuth** em **Authentication**;
+4. marcar **I understand and want to continue** e clicar em **Create as a plugin**;
+5. entrar com a conta do ProcessWatch e clicar em **Aprovar a conexão**.
+
+Conferido na tela do ChatGPT em 19/11/2026, numa conta Plus. Se a empresa já
+publicou o plugin (conta de empresa do ChatGPT), basta achá-lo na aba com o
+nome da empresa e instalar.
 
 ## Para quem administra o ChatGPT da empresa
 
@@ -29,16 +37,13 @@ caminhos.
 
 É a opção para a equipe usar no navegador. Pela documentação da OpenAI, criar
 a ligação existe nas contas Business, Enterprise e Edu (no Business, só
-administradores e donos criam e publicam) e na conta Pro. Na conta Plus e na
-gratuita, a opção pode não aparecer. Onde existe, a conta precisa das
+administradores e donos criam e publicam) e na conta Pro; em 19/11/2026 ela
+apareceu também numa conta Plus. Para publicar à empresa, a conta precisa das
 permissões **Create plugins with MCPs** e **Publish plugins to workspace**.
 
-1. Em <https://chatgpt.com/plugins>, clique no **+** e escolha **Add custom MCP server**.
-2. Dê o nome `ProcessWatch`. Em **Connection**, ponha em **Server URL** o
-   endereço `https://app.processwatch.com.br/api/mcp`. Na autenticação, escolha
-   **OAuth**.
-3. Clique em **I understand and want to continue** e em **Create as a plugin**.
-4. Na aba **Personal**, abra os três pontos do ProcessWatch, escolha **Publish**
+1. Crie a ligação pelos passos de "Para quem vai usar", até **Create as a plugin**
+   (o **Add custom MCP server** fica no botão **Add** de <https://chatgpt.com/plugins>).
+2. Na aba **Personal**, abra os três pontos do ProcessWatch, escolha **Publish**
    e diga quais perfis da empresa podem usar.
 
 Por este caminho a skill não vai junto. O ChatGPT consulta do mesmo jeito,
@@ -113,5 +118,6 @@ cliente. O login é de cada pessoa, feito no próprio ProcessWatch.
   **Sync now**.
 - **O guia é servido pelo GitHub Pages**, da branch principal, pasta `/docs`
   (em **Settings** > **Pages**).
-- Os nomes dos botões do ChatGPT estão como na documentação da OpenAI de
+- Os botões do caminho de quem vai usar foram conferidos na tela do ChatGPT em
+  19/11/2026 (conta Plus); os do administrador vêm da documentação da OpenAI de
   17/11/2026. Se a tela mudar, o guia e este arquivo mudam juntos.

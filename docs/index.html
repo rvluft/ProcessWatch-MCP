@@ -155,10 +155,11 @@
     <p class="marca">Process<span>Watch</span></p>
     <h1>Ligue o ChatGPT ao ProcessWatch</h1>
     <p class="chamada">Depois de ligado, você pergunta ao ChatGPT sobre os processos da sua empresa e ele consulta o ProcessWatch na hora.</p>
-    <p class="nota">Leva uns dois minutos. Faça no computador. O aplicativo só lê. Ele não encerra processo, não muda obra e não pede verificação.</p>
+    <p class="nota">Leva uns três minutos. Faça no computador, pelo navegador. O aplicativo só lê. Ele não encerra processo, não muda obra e não pede verificação.</p>
     <nav class="atalhos" aria-label="Nesta página">
       <a href="#instalar">Instalar</a>
-      <a href="#fora-da-lista">Não achei na lista</a>
+      <a href="#sem-a-opcao">Não aparece a opção</a>
+      <a href="#ja-publicado">A empresa já publicou</a>
       <a href="#administrador">Administro o ChatGPT da empresa</a>
       <a href="#o-que-ve">O que o ChatGPT vê</a>
       <a href="#desligar">Desligar</a>
@@ -168,6 +169,7 @@
 
   <section id="instalar" aria-labelledby="t-instalar">
     <h2 id="t-instalar">Instalar</h2>
+    <p class="nota">Os botões do ChatGPT aparecem em inglês, como abaixo.</p>
     <ol class="passos">
       <li><div>
         <h3>Abra os plugins do ChatGPT</h3>
@@ -175,14 +177,27 @@
         <p class="nota">Abre numa aba nova. Se pedir, entre com a sua conta do ChatGPT.</p>
       </div></li>
       <li><div>
-        <h3>Instale o ProcessWatch</h3>
-        <p>Clique na aba com o <strong>nome da sua empresa</strong>, procure <strong>ProcessWatch</strong> e clique no botão <span class="tecla">+</span> para instalar.</p>
-        <p class="nota">Não apareceu, ou não existe aba com o nome da empresa? Veja <a href="#fora-da-lista">Não achei na lista</a>, logo abaixo.</p>
-        <p class="nota">Apareceu com o aviso <strong>Desktop only</strong>? Então ele só instala pelo aplicativo do ChatGPT para computador: abra o aplicativo, vá aos plugins e instale por lá. No celular ele não aparece.</p>
+        <h3>Escolha adicionar um servidor</h3>
+        <p>No canto de cima, à direita, clique em <span class="tecla">Add</span>. No menu que abre, escolha <span class="tecla">Add custom MCP server</span>.</p>
+        <p class="nota">O menu tem mais duas opções, <strong>Create plugin</strong> e <strong>Upload plugin archive</strong>. Não são estas.</p>
+      </div></li>
+      <li><div>
+        <h3>Preencha a janela</h3>
+        <p>Abre a janela <strong>Add custom MCP server</strong>. Preencha assim, de cima para baixo:</p>
+        <div class="campo"><span class="rotulo">Icon (optional)</span><span class="valor frase">Pode deixar em branco.</span></div>
+        <div class="campo"><span class="rotulo">Name</span><span class="valor" id="c-nome">ProcessWatch</span><button type="button" class="copiar" data-copiar="c-nome" hidden>Copiar</button></div>
+        <div class="campo"><span class="rotulo">Description (optional)</span><span class="valor frase" id="c-descricao">Consulta os processos da empresa no ProcessWatch. Somente leitura.</span><button type="button" class="copiar" data-copiar="c-descricao" hidden>Copiar</button></div>
+        <div class="campo"><span class="rotulo">Connection: deixe marcado Server URL, não Tunnel, e cole</span><span class="valor" id="c-endereco">https://app.processwatch.com.br/api/mcp</span><button type="button" class="copiar" data-copiar="c-endereco" hidden>Copiar</button></div>
+        <div class="campo"><span class="rotulo">Authentication</span><span class="valor">OAuth</span></div>
+        <p class="nota">Não abra <strong>Advanced OAuth settings</strong>. O ChatGPT descobre sozinho o que precisa, pelo endereço.</p>
+      </div></li>
+      <li><div>
+        <h3>Confirme e crie</h3>
+        <p>O ChatGPT avisa que servidores personalizados têm risco. Marque <span class="tecla">I understand and want to continue</span> e clique em <span class="tecla">Create as a plugin</span>.</p>
       </div></li>
       <li><div>
         <h3>Entre e aprove</h3>
-        <p>Vai abrir uma tela do ProcessWatch. Entre com o mesmo e-mail e a mesma senha que você usa no painel. A tela mostra o que o ChatGPT vai poder ler. Confira e clique em <span class="tecla">Aprovar a conexão</span>.</p>
+        <p>Abre uma tela do ProcessWatch, na hora ou quando o plugin for usado pela primeira vez. Entre com o mesmo e-mail e a mesma senha que você usa no painel. A tela mostra o que o ChatGPT vai poder ler. Confira e clique em <span class="tecla">Aprovar a conexão</span>.</p>
       </div></li>
       <li><div>
         <h3>Pergunte</h3>
@@ -195,28 +210,19 @@
     </ol>
   </section>
 
-  <section id="fora-da-lista" aria-labelledby="t-fora">
-    <h2 id="t-fora">Não achei o ProcessWatch na lista</h2>
-    <p>Ele aparece na aba da empresa depois que quem administra o ChatGPT da sua empresa o publica. Peça a essa pessoa para seguir <a href="#administrador">a parte do administrador</a>.</p>
-    <p>Dá para criar a ligação à mão quando a conta do ChatGPT permite. Pela documentação da OpenAI, isso existe nas contas de empresa (<strong>Business</strong>, <strong>Enterprise</strong> e <strong>Edu</strong>) e na conta <strong>Pro</strong>. Na conta <strong>Plus</strong> e na gratuita, a opção pode não aparecer. O jeito de saber é olhar o primeiro passo:</p>
-    <ol class="passos">
-      <li><div>
-        <p>Nos <a href="https://chatgpt.com/plugins" target="_blank" rel="noopener">plugins do ChatGPT</a>, clique no botão <span class="tecla">+</span> e escolha <span class="tecla">Add custom MCP server</span>.</p>
-      </div></li>
-      <li><div>
-        <p>Preencha os campos com estes valores:</p>
-        <div class="campo"><span class="rotulo">Nome</span><span class="valor" id="c-nome">ProcessWatch</span><button type="button" class="copiar" data-copiar="c-nome" hidden>Copiar</button></div>
-        <div class="campo"><span class="rotulo">Server URL, na parte Connection</span><span class="valor" id="c-endereco">https://app.processwatch.com.br/api/mcp</span><button type="button" class="copiar" data-copiar="c-endereco" hidden>Copiar</button></div>
-        <div class="campo"><span class="rotulo">Autenticação: das três opções, escolha esta</span><span class="valor">OAuth</span></div>
-      </div></li>
-      <li><div>
-        <p>Leia o aviso do ChatGPT e clique em <span class="tecla">I understand and want to continue</span>. Depois clique em <span class="tecla">Create as a plugin</span>.</p>
-      </div></li>
-      <li><div>
-        <p>O plugin criado fica nos seus plugins pessoais. Instale-o e siga a partir de <a href="#instalar">Entre e aprove</a>.</p>
-      </div></li>
-    </ol>
-    <p class="aviso">A opção <strong>Add custom MCP server</strong> não aparece para você? A sua conta do ChatGPT não permite criar a ligação. Numa conta de empresa, fale com quem a administra. Numa conta Plus ou gratuita, escreva para o <a href="#suporte">suporte do ProcessWatch</a>.</p>
+  <section id="sem-a-opcao" aria-labelledby="t-sem">
+    <h2 id="t-sem">Não aparece <strong>Add custom MCP server</strong></h2>
+    <p>Então a sua conta do ChatGPT não permite criar a ligação. Em 19/11/2026 a opção apareceu numa conta <strong>Plus</strong>. A documentação da OpenAI a cita nas contas de empresa (<strong>Business</strong>, <strong>Enterprise</strong> e <strong>Edu</strong>) e na conta <strong>Pro</strong>. Na conta gratuita não sabemos.</p>
+    <ul class="lista">
+      <li>Numa conta de empresa, quem a administra pode ter desligado a opção. Fale com essa pessoa: ela pode publicar o ProcessWatch para todos, pela <a href="#administrador">parte do administrador</a>.</li>
+      <li>Nos outros casos, escreva para o <a href="#suporte">suporte do ProcessWatch</a>.</li>
+    </ul>
+  </section>
+
+  <section id="ja-publicado" aria-labelledby="t-publicado">
+    <h2 id="t-publicado">A sua empresa já publicou o ProcessWatch no ChatGPT</h2>
+    <p>Isso só acontece em conta de empresa do ChatGPT, depois que quem a administra publica o plugin. Nesse caso você não precisa preencher nada: nos <a href="https://chatgpt.com/plugins" target="_blank" rel="noopener">plugins do ChatGPT</a>, abra a aba com o <strong>nome da sua empresa</strong>, procure <strong>ProcessWatch</strong>, instale e siga a partir de <a href="#instalar">Entre e aprove</a>.</p>
+    <p class="nota">Apareceu com o aviso <strong>Desktop only</strong>? Então ele só instala pelo aplicativo do ChatGPT para computador: abra o aplicativo, vá aos plugins e instale por lá. No celular ele não aparece.</p>
   </section>
 
   <section id="administrador" aria-labelledby="t-adm">
@@ -228,7 +234,7 @@
         <h3>Opção 1: criar e publicar pelo ChatGPT</h3>
         <p class="nota">É a opção para a equipe usar no navegador. A sua conta precisa das permissões <strong>Create plugins with MCPs</strong> e <strong>Publish plugins to workspace</strong>.</p>
         <ul class="lista">
-          <li>Crie a ligação à mão, pelos quatro passos de <a href="#fora-da-lista">Não achei na lista</a>.</li>
+          <li>Crie a ligação pelos passos de <a href="#instalar">Instalar</a>, até <span class="tecla">Create as a plugin</span>.</li>
           <li>Nos plugins, abra a aba <span class="tecla">Personal</span>, clique nos três pontos do ProcessWatch e escolha <span class="tecla">Publish</span>.</li>
           <li>Escolha quais perfis da empresa podem usar.</li>
         </ul>
@@ -287,6 +293,7 @@
     <h2 id="t-erro">Deu errado?</h2>
     <dl>
       <div><dt>A tela do ProcessWatch diz que a consulta ainda não está liberada para a sua empresa</dt><dd>Nada foi liberado. Peça ao suporte do ProcessWatch, no e-mail abaixo, para liberar. Depois tente de novo.</dd></div>
+      <div><dt>Ao clicar em Create as a plugin, o ChatGPT mostra um erro</dt><dd>Confira o endereço em <strong>Server URL</strong>: use o botão Copiar deste guia, para não sobrar espaço nem faltar letra. Confira também se <strong>Authentication</strong> está em <strong>OAuth</strong>. Tente de novo. Se repetir, mande a mensagem ao suporte do ProcessWatch, no e-mail abaixo.</dd></div>
       <div><dt>O ChatGPT diz que não conseguiu conectar</dt><dd>Tente mais uma vez. Se repetir, copie ou fotografe a mensagem que apareceu e mande ao suporte do ProcessWatch, no e-mail abaixo.</dd></div>
       <div><dt>O ChatGPT responde sem consultar o ProcessWatch</dt><dd>Digite <span class="tecla">@</span> na conversa e escolha ProcessWatch antes de perguntar.</dd></div>
       <div><dt>A resposta diz que o limite de chamadas foi atingido</dt><dd>Espere alguns minutos e pergunte de novo. Há um limite de consultas por minuto e outro por hora.</dd></div>
@@ -295,7 +302,7 @@
   </section>
 </main>
 <footer>
-  <p>Os nomes dos botões do ChatGPT estão como na documentação da OpenAI de 17/11/2026, em inglês. No seu ChatGPT eles podem aparecer traduzidos ou ter mudado de lugar.</p>
+  <p>Os botões de Instalar foram conferidos na tela do ChatGPT em 19/11/2026, numa conta Plus. Os da parte do administrador vêm da documentação da OpenAI de 17/11/2026. No seu ChatGPT eles podem ter mudado de lugar.</p>
 </footer>
 <script>
   // Sem este script a página continua inteira: os valores ficam à vista, para

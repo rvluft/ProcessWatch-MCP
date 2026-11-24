@@ -6,8 +6,9 @@
 <title>Ligar o ChatGPT ao ProcessWatch</title>
 <meta name="description" content="Passo a passo para instalar o ProcessWatch no ChatGPT e consultar os processos da sua empresa.">
 <style>
-  /* Layout: uma coluna de leitura. Abre com os quatro passos de quem vai usar;
-     o que é exceção (não achou na lista, administrador, desligar) vem depois. */
+  /* Layout: uma coluna de leitura. Abre com a pergunta que separa os dois
+     caminhos (a empresa já publicou, ou cada pessoa cria o seu); o que é
+     exceção (não achou a opção, administrador, desligar) vem depois. */
   :root {
     --papel: #e9eaeb;
     --folha: #ffffff;
@@ -140,6 +141,9 @@
   ul.lista { padding-left: 1.2rem; display: flex; flex-direction: column; gap: 0.35rem; }
   .duas { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 1.25rem; }
   .duas > div { display: flex; flex-direction: column; gap: 0.6rem; min-width: 0; }
+  .caminho { border: 1px solid var(--linha); border-radius: 14px; padding: 1rem 1.1rem; }
+  .icone { display: flex; align-items: center; gap: 0.9rem; flex-wrap: wrap; }
+  .icone img { width: 48px; height: 48px; border-radius: 12px; flex: none; }
   dl { margin: 0; display: flex; flex-direction: column; gap: 0.9rem; }
   dt { font-weight: 700; }
   dd { margin: 0.2rem 0 0; color: var(--tinta-suave); }
@@ -157,9 +161,9 @@
     <p class="chamada">Depois de ligado, você pergunta ao ChatGPT sobre os processos da sua empresa e ele consulta o ProcessWatch na hora.</p>
     <p class="nota">Leva uns três minutos. Faça no computador, pelo navegador. O aplicativo só lê. Ele não encerra processo, não muda obra e não pede verificação.</p>
     <nav class="atalhos" aria-label="Nesta página">
-      <a href="#instalar">Instalar</a>
-      <a href="#sem-a-opcao">Não aparece a opção</a>
       <a href="#ja-publicado">A empresa já publicou</a>
+      <a href="#instalar">Criar a ligação</a>
+      <a href="#sem-a-opcao">Não aparece a opção</a>
       <a href="#administrador">Administro o ChatGPT da empresa</a>
       <a href="#o-que-ve">O que o ChatGPT vê</a>
       <a href="#desligar">Desligar</a>
@@ -167,14 +171,57 @@
     </nav>
   </header>
 
+  <section id="comece" aria-labelledby="t-comece">
+    <h2 id="t-comece">A sua empresa já publicou o ProcessWatch no ChatGPT?</h2>
+    <p>Depende do tipo de conta. O ProcessWatch que alguém cria fica só na conta de quem criou: outra pessoa não o acha procurando. Só numa conta de empresa do ChatGPT (<strong>Business</strong>, <strong>Enterprise</strong> ou <strong>Edu</strong>) quem administra pode publicá-lo para todos.</p>
+    <div class="duas">
+      <div class="caminho">
+        <h3>Sim, a empresa publicou</h3>
+        <p class="nota">Ele aparece nos plugins do ChatGPT, na aba com o nome da empresa. Você só instala e aprova.</p>
+        <a class="botao" href="#ja-publicado">Instalar o publicado</a>
+      </div>
+      <div class="caminho">
+        <h3>Não, ou a conta é Plus ou Pro</h3>
+        <p class="nota">Cada pessoa cria a própria ligação, na sua conta. Leva uns três minutos.</p>
+        <a class="botao" href="#instalar">Criar a ligação</a>
+      </div>
+    </div>
+    <p class="nota">Não sabe? Abra os <a href="https://chatgpt.com/plugins" target="_blank" rel="noopener">plugins do ChatGPT</a>. Se houver uma aba com o nome da empresa e o ProcessWatch estiver nela, a empresa publicou. Se não, crie a ligação.</p>
+  </section>
+
+  <section id="ja-publicado" aria-labelledby="t-publicado">
+    <h2 id="t-publicado">A empresa já publicou: instalar</h2>
+    <ol class="passos">
+      <li><div>
+        <h3>Desligue o treino do ChatGPT</h3>
+        <p>Nos planos Business, Enterprise e Edu o treino já vem desligado. Se a sua conta for outra, desligue como no passo <a href="#treino">Desligue o treino do ChatGPT</a> da criação.</p>
+      </div></li>
+      <li><div>
+        <h3>Ache e instale</h3>
+        <a class="botao" href="https://chatgpt.com/plugins" target="_blank" rel="noopener">Abrir os plugins do ChatGPT</a>
+        <p>Abra a aba com o <strong>nome da sua empresa</strong>, procure <strong>ProcessWatch</strong> e instale.</p>
+        <p class="nota">Apareceu com o aviso <strong>Desktop only</strong>? Então ele só instala pelo aplicativo do ChatGPT para computador: abra o aplicativo, vá aos plugins e instale por lá. No celular ele não aparece.</p>
+      </div></li>
+      <li><div>
+        <h3>Entre, aprove e pergunte</h3>
+        <p>Siga a partir do passo <a href="#aprovar">Entre e aprove</a> da criação. Não precisa preencher nada.</p>
+      </div></li>
+    </ol>
+  </section>
+
   <section id="instalar" aria-labelledby="t-instalar">
-    <h2 id="t-instalar">Instalar</h2>
-    <p class="nota">Os botões do ChatGPT aparecem em inglês, como abaixo.</p>
+    <h2 id="t-instalar">Criar a ligação</h2>
+    <p class="nota">Para conta Plus ou Pro, ou quando a empresa não publicou. Os botões do ChatGPT aparecem em inglês, como abaixo.</p>
     <ol class="passos">
       <li><div>
         <h3>Abra os plugins do ChatGPT</h3>
         <a class="botao" href="https://chatgpt.com/plugins" target="_blank" rel="noopener">Abrir os plugins do ChatGPT</a>
         <p class="nota">Abre numa aba nova. Se pedir, entre com a sua conta do ChatGPT.</p>
+      </div></li>
+      <li id="treino"><div>
+        <h3>Desligue o treino do ChatGPT</h3>
+        <p>Nos planos Free, Plus e Pro, a OpenAI pode usar as suas conversas, inclusive o que o ProcessWatch responder, para treinar os modelos dela. Para desligar: clique no seu nome, no canto de baixo à esquerda, e vá em <span class="tecla">Settings</span> → <span class="tecla">Data controls</span>. Desligue <span class="tecla">Improve the model for everyone</span>.</p>
+        <p class="nota">Vale para a conta inteira, no navegador e no celular. Se você der 👍 ou 👎 numa resposta, aquela conversa ainda pode ir para treino. Nos planos Business, Enterprise e Edu o treino já vem desligado.</p>
       </div></li>
       <li><div>
         <h3>Escolha adicionar um servidor</h3>
@@ -184,7 +231,8 @@
       <li><div>
         <h3>Preencha a janela</h3>
         <p>Abre a janela <strong>Add custom MCP server</strong>. Preencha assim, de cima para baixo:</p>
-        <div class="campo"><span class="rotulo">Icon (optional)</span><span class="valor frase">Pode deixar em branco.</span></div>
+        <div class="campo"><span class="rotulo">Icon (optional)</span><span class="icone"><img src="icone-processwatch.png" alt="" width="48" height="48"><a class="valor frase" id="c-icone" href="icone-processwatch.png" download="processwatch.png">Baixar o ícone do ProcessWatch</a></span></div>
+        <p class="nota">Baixe o ícone, clique em <strong>Icon</strong> e escolha o arquivo baixado. Sem ele, o ChatGPT põe um ícone genérico, e a tela do app depois de criado não oferece trocar.</p>
         <div class="campo"><span class="rotulo">Name</span><span class="valor" id="c-nome">ProcessWatch</span><button type="button" class="copiar" data-copiar="c-nome" hidden>Copiar</button></div>
         <div class="campo"><span class="rotulo">Description (optional)</span><span class="valor frase" id="c-descricao">Consulta os processos da empresa no ProcessWatch. Somente leitura.</span><button type="button" class="copiar" data-copiar="c-descricao" hidden>Copiar</button></div>
         <div class="campo"><span class="rotulo">Connection: deixe marcado Server URL, não Tunnel, e cole</span><span class="valor" id="c-endereco">https://app.processwatch.com.br/api/mcp</span><button type="button" class="copiar" data-copiar="c-endereco" hidden>Copiar</button></div>
@@ -195,7 +243,7 @@
         <h3>Confirme e crie</h3>
         <p>O ChatGPT avisa que servidores personalizados têm risco. Marque <span class="tecla">I understand and want to continue</span> e clique em <span class="tecla">Create as a plugin</span>.</p>
       </div></li>
-      <li><div>
+      <li id="aprovar"><div>
         <h3>Entre e aprove</h3>
         <p>Abre uma tela do ProcessWatch, na hora ou quando o plugin for usado pela primeira vez. Entre com o mesmo e-mail e a mesma senha que você usa no painel. A tela mostra o que o ChatGPT vai poder ler. Confira e clique em <span class="tecla">Aprovar a conexão</span>.</p>
       </div></li>
@@ -219,22 +267,16 @@
     </ul>
   </section>
 
-  <section id="ja-publicado" aria-labelledby="t-publicado">
-    <h2 id="t-publicado">A sua empresa já publicou o ProcessWatch no ChatGPT</h2>
-    <p>Isso só acontece em conta de empresa do ChatGPT, depois que quem a administra publica o plugin. Nesse caso você não precisa preencher nada: nos <a href="https://chatgpt.com/plugins" target="_blank" rel="noopener">plugins do ChatGPT</a>, abra a aba com o <strong>nome da sua empresa</strong>, procure <strong>ProcessWatch</strong>, instale e siga a partir de <a href="#instalar">Entre e aprove</a>.</p>
-    <p class="nota">Apareceu com o aviso <strong>Desktop only</strong>? Então ele só instala pelo aplicativo do ChatGPT para computador: abra o aplicativo, vá aos plugins e instale por lá. No celular ele não aparece.</p>
-  </section>
-
   <section id="administrador" aria-labelledby="t-adm">
     <h2 id="t-adm">Para quem administra o ChatGPT da empresa</h2>
-    <p>Isto se faz uma vez. Depois, cada pessoa só instala e aprova, pelos passos do começo desta página. É preciso ser administrador do espaço de trabalho no ChatGPT.</p>
+    <p>Isto se faz uma vez. Depois, cada pessoa só instala e aprova, pelos passos de <a href="#ja-publicado">A empresa já publicou</a>. É preciso ser administrador do espaço de trabalho no ChatGPT.</p>
     <p class="nota">Os nomes dos botões abaixo estão em inglês, como na documentação do ChatGPT. No seu eles podem aparecer traduzidos.</p>
     <div class="duas">
       <div>
         <h3>Opção 1: criar e publicar pelo ChatGPT</h3>
         <p class="nota">É a opção para a equipe usar no navegador. A sua conta precisa das permissões <strong>Create plugins with MCPs</strong> e <strong>Publish plugins to workspace</strong>.</p>
         <ul class="lista">
-          <li>Crie a ligação pelos passos de <a href="#instalar">Instalar</a>, até <span class="tecla">Create as a plugin</span>.</li>
+          <li>Crie a ligação pelos passos de <a href="#instalar">Criar a ligação</a>, até <span class="tecla">Create as a plugin</span>.</li>
           <li>Nos plugins, abra a aba <span class="tecla">Personal</span>, clique nos três pontos do ProcessWatch e escolha <span class="tecla">Publish</span>.</li>
           <li>Escolha quais perfis da empresa podem usar.</li>
         </ul>
@@ -302,7 +344,7 @@
   </section>
 </main>
 <footer>
-  <p>Os botões de Instalar foram conferidos na tela do ChatGPT em 19/11/2026, numa conta Plus. Os da parte do administrador vêm da documentação da OpenAI de 17/11/2026. No seu ChatGPT eles podem ter mudado de lugar.</p>
+  <p>Os botões de Criar a ligação foram conferidos na tela do ChatGPT em 19/11/2026, numa conta Plus. Os da parte do administrador, e quem enxerga um plugin criado, vêm da documentação da OpenAI de 17/11/2026. No seu ChatGPT eles podem ter mudado de lugar.</p>
 </footer>
 <script>
   // Sem este script a página continua inteira: os valores ficam à vista, para

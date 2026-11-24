@@ -14,19 +14,30 @@ Abra o guia, que tem o passo a passo com os botões:
 <https://rvluft.github.io/ProcessWatch-MCP/>. É esse o endereço para mandar à
 equipe.
 
-Em resumo:
+O ProcessWatch que alguém cria no ChatGPT fica só na conta de quem criou:
+outra pessoa não o acha procurando. Por isso há dois caminhos.
+
+**A empresa já publicou** (só existe em conta de empresa do ChatGPT: Business,
+Enterprise ou Edu): nos plugins, abra a aba com o nome da empresa, procure
+ProcessWatch, instale, entre com a conta do ProcessWatch e clique em **Aprovar
+a conexão**.
+
+**Conta Plus ou Pro, ou a empresa não publicou**: cada pessoa cria a sua.
 
 1. abrir os plugins do ChatGPT, em <https://chatgpt.com/plugins>;
-2. clicar em **Add** e escolher **Add custom MCP server**;
-3. preencher `ProcessWatch` em **Name**, o endereço
+2. desligar o treino: **Settings** > **Data controls** > **Improve the model for
+   everyone** (nos planos Free, Plus e Pro a OpenAI treina com as conversas,
+   inclusive com o que o ProcessWatch responder, se isso estiver ligado);
+3. clicar em **Add** e escolher **Add custom MCP server**;
+4. em **Icon**, enviar o ícone do ProcessWatch (`docs/icone-processwatch.png`,
+   ou o botão de baixar no guia; depois de criado, o ChatGPT não oferece
+   trocar), preencher `ProcessWatch` em **Name**, o endereço
    `https://app.processwatch.com.br/api/mcp` em **Server URL** (na parte
    **Connection**) e **OAuth** em **Authentication**;
-4. marcar **I understand and want to continue** e clicar em **Create as a plugin**;
-5. entrar com a conta do ProcessWatch e clicar em **Aprovar a conexão**.
+5. marcar **I understand and want to continue** e clicar em **Create as a plugin**;
+6. entrar com a conta do ProcessWatch e clicar em **Aprovar a conexão**.
 
-Conferido na tela do ChatGPT em 19/11/2026, numa conta Plus. Se a empresa já
-publicou o plugin (conta de empresa do ChatGPT), basta achá-lo na aba com o
-nome da empresa e instalar.
+Conferido na tela do ChatGPT em 19/11/2026, numa conta Plus.
 
 ## Para quem administra o ChatGPT da empresa
 
@@ -101,6 +112,7 @@ plugins/processwatch/
   skills/processwatch/SKILL.md       como consultar e como responder
   assets/icone.png
 docs/index.html                      o guia de quem vai usar
+docs/icone-processwatch.png          o mesmo ícone, para baixar pelo guia
 ```
 
 O pacote segue o formato Agent Plugins 1.0 e não leva senha, chave nem dado de
